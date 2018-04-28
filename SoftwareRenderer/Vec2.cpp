@@ -128,6 +128,10 @@ Vec2 div(Vec2 a, float f) {
 				 a.y / f };
 }
 
+float cross(Vec2 a, Vec2 b) {
+	return (a.x * b.y - b.x * a.y);
+}
+
 Vec2 operator+(Vec2 a, Vec2 b) {
 	return add(a, b);
 }

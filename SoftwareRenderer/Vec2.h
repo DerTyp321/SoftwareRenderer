@@ -28,6 +28,7 @@ Vec2 add(Vec2 a, float f);
 Vec2 sub(Vec2 a, float f);
 Vec2 mul(Vec2 a, float f);
 Vec2 div(Vec2 a, float f);
+float cross(Vec2 a, Vec2 b);
 
 Vec2 operator+(Vec2 a, Vec2 b);
 Vec2 operator-(Vec2 a, Vec2 b);

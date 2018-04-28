@@ -28,6 +28,7 @@ Vec3 add(Vec3 a, float f);
 Vec3 sub(Vec3 a, float f);
 Vec3 mul(Vec3 a, float f);
 Vec3 div(Vec3 a, float f);
+float cross(Vec3 a, Vec3 b);
 
 Vec3 operator+(Vec3 a, Vec3 b);
 Vec3 operator-(Vec3 a, Vec3 b);

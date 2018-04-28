@@ -8,8 +8,7 @@ public:
 	int getWidth();
 	int getHeight();
 	void setRGB(int x, int y, unsigned char red, unsigned char green, unsigned char blue);
-	void setScanbufferStartX(int y, int xStart);
-	void setScanbufferEndX(int y, int xEnd);
+	void setScanbufferX(int y, int x, int side);
 	int getScanbufferStartX(int y);
 	int getScanbufferEndX(int y);
 	unsigned char *getColorBuffer();

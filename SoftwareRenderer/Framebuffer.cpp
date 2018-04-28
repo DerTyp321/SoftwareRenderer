@@ -40,12 +40,8 @@ void Framebuffer::setRGB(int x, int y, unsigned char red, unsigned char green, u
 	m_colorBuffer[(x + y * m_width) * 3 + 2] = blue;
 }
 
-void Framebuffer::setScanbufferStartX(int y, int xStart) {
-	m_scanbuffer[0][y] = xStart;
-}
-
-void Framebuffer::setScanbufferEndX(int y, int xEnd) {
-	m_scanbuffer[1][y] = xEnd;
+void Framebuffer::setScanbufferX(int y, int x, int side) {
+	m_scanbuffer[side][y] = x;
 }
 
 int Framebuffer::getScanbufferStartX(int y) {
