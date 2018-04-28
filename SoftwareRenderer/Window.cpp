@@ -54,6 +54,6 @@ void Window::handleEvent(SDL_WindowEvent ev) {
 	}
 }
 
-Framebuffer* Window::getFramebuffer() {
-	return m_framebuffer;
+Framebuffer& Window::getFramebuffer() {
+	return *m_framebuffer;
 }

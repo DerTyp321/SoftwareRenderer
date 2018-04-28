@@ -9,7 +9,7 @@ public:
 	~Window();
 	void draw();
 	void handleEvent(SDL_WindowEvent ev);
-	Framebuffer* getFramebuffer();
+	Framebuffer& getFramebuffer();
 private:
 	int m_width, m_height;
 	SDL_Window *m_window;

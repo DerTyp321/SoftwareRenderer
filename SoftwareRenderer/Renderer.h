@@ -5,7 +5,7 @@
 
 class Renderer {
 public:
-	void renderRect(Framebuffer* target, int x, int y, int width, int height, Vec3 color);
-	void renderTriangle(Framebuffer* target, Vec2 v1, Vec2 v2, Vec2 v3, Vec3 color);
+	void renderRect(Framebuffer& target, int x, int y, int width, int height, const Vec3& color);
+	void renderTriangle(Framebuffer& target, const Vec2& v1, const Vec2& v2, const Vec2& v3, const Vec3& color);
 private:
 };

@@ -3,36 +3,33 @@
 #define MIN(x, y) ((x) < (y) ? (x):(y))
 #define MAX(x, y) ((x) > (y) ? (x):(y))
 
-void Renderer::renderRect(Framebuffer* target, int x, int y, int width, int height, Vec3 color) {
-	unsigned char* colorBuffer = target->getColorBuffer();
-	for (int cy = MAX(0, y); cy < MIN(target->getHeight(), y + height); cy++) {
-		for (int cx = MAX(0, x); cx < MIN(target->getWidth(), x + width); cx++) {
-			colorBuffer[(cy * target->getWidth() + cx) * 3 + 0] = (int)(color.x * 255);
-			colorBuffer[(cy * target->getWidth() + cx) * 3 + 1] = (int)(color.y * 255);
-			colorBuffer[(cy * target->getWidth() + cx) * 3 + 2] = (int)(color.z * 255);
+void Renderer::renderRect(Framebuffer& target, int startX, int startY, int width, int height, const Vec3& color) {
+	for (int y = MAX(0, startY); y < MIN(target.getHeight(), startY + height); y++) {
+		for (int x = MAX(0, startX); x < MIN(target.getWidth(), startX + width); x++) {
+			target.setRGB(x, y, (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255));
 		}
 	}
 }
 
-void Renderer::renderTriangle(Framebuffer* target, Vec2 v1, Vec2 v2, Vec2 v3, Vec3 color) {
+void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1,const Vec2& v2, const Vec2& v3, const Vec3& color) {
+	Vec2 temp;
 	Vec2 top = v1;
 	Vec2 mid = v2;
 	Vec2 bot = v3;
-	Vec2 temp;
-	if (v1.y > v2.y) {
-		temp = v2;
-		v2 = v1;
-		v1 = temp;
+	if (top.y > mid.y) {
+		temp = mid;
+		mid = top;
+		top = temp;
 	}
-	if (v1.y > v3.y) {
-		temp = v3;
-		v3 = v1;
-		v1 = temp;
+	if (top.y > bot.y) {
+		temp = bot;
+		bot = top;
+		top = temp;
 	}
-	if (v2.y > v3.y) {
-		temp = v3;
-		v3 = v2;
-		v2 = temp;
+	if (mid.y > bot.y) {
+		temp = bot;
+		bot = mid;
+		mid = temp;
 	}
 
 	int yStart = (int)top.y;
@@ -43,32 +40,32 @@ void Renderer::renderTriangle(Framebuffer* target, Vec2 v1, Vec2 v2, Vec2 v3, Ve
 	float x = top.x;
 
 	for (int y = yStart; y < yEnd; y++) {
+		target.setScanbufferStartX(y, (int)x);
 		x += xStep;
-		target->setScanbufferStartX(y, (int)x);
 	}
 
 	xStep = (mid.x - top.x) / (mid.y - top.y);
 	x = top.x;
 
 	for (int y = yStart; y < yMid; y++) {
+		target.setScanbufferEndX(y, (int)x);
 		x += xStep;
-		target->setScanbufferEndX(y, (int)x);
 	}
 
 	xStep = (bot.x - mid.x) / (bot.y - mid.y);
 	x = mid.x;
 
 	for (int y = yMid; y < yEnd; y++) {
+		target.setScanbufferEndX(y, (int)x);
 		x += xStep;
-		target->setScanbufferEndX(y, (int)x);
 	}
 
 
 	for (int y = yStart; y < yEnd; y++) {
-		int xStart = target->getScanbufferStartX(y);
-		int xEnd = target->getScanbufferEndX(y);
+		int xStart = target.getScanbufferStartX(y);
+		int xEnd = target.getScanbufferEndX(y);
 		for (int x = xStart; x < xEnd; x++) {
-					target->setRGB(x, y, (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255));
+			target.setRGB(x, y, (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255));
 		}
 	}
 }
