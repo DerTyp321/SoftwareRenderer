@@ -33,7 +33,7 @@ Window::~Window() {
 	SDL_Quit();
 }
 
-void Window::draw(){
+void Window::draw() {
 
 	SDL_UpdateTexture(m_texture, NULL, m_framebuffer->getColorBuffer(), m_width * 3 * sizeof(unsigned char));
 	SDL_RenderClear(m_renderer);
@@ -44,6 +44,7 @@ void Window::draw(){
 void Window::handleEvent(SDL_WindowEvent ev) {
 	switch (ev.event) {
 	case SDL_WINDOWEVENT_RESIZED:
+		std::cout << ev.data1 << " " << ev.data2;
 		m_width = ev.data1;
 		m_height = ev.data2;
 		SDL_DestroyTexture(m_texture);

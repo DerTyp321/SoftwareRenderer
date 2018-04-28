@@ -32,6 +32,15 @@ int Framebuffer::getHeight() {
 	return m_height;
 }
 
+void Framebuffer::setR(int x, int y, unsigned char red) {
+}
+
+void Framebuffer::setG(int x, int y, unsigned char green) {
+}
+
+void Framebuffer::setB(int x, int y, unsigned char blue) {
+}
+
 unsigned char* Framebuffer::getColorBuffer() {
 	return m_colorBuffer;
 }

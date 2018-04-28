@@ -36,7 +36,7 @@ void Renderer::renderTriangle(Framebuffer* target, Vec2 v1, Vec2 v2, Vec2 v3, Ve
 	}
 
 	unsigned char* colorBuffer = target->getColorBuffer();
-	
+
 	float xStep = (bot.x - top.x) / (bot.y - top.y);
 	float x = top.x;
 
