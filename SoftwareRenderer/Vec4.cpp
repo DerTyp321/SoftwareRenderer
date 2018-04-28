@@ -37,6 +37,7 @@ Vec4& Vec4::zDiv() {
 	y /= w;
 	z /= w;
 	w /= w;
+	return *this;
 }
 
 Vec4& Vec4::operator+=(const Vec4& o) {
