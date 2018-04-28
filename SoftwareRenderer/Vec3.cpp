@@ -1,44 +1,23 @@
 #include "Vec3.h"
 
-Vec3 Vec3::add(Vec3 o) {
+Vec3 Vec3::add(const Vec3& o) {
 	x += o.x;
 	y += o.y;
 	z += o.z;
 	return *this;
 }
 
-Vec3 Vec3::sub(Vec3 o) {
+Vec3 Vec3::sub(const Vec3& o) {
 	x -= o.x;
 	y -= o.y;
 	z -= o.z;
 	return *this;
 }
 
-Vec3 Vec3::mul(Vec3 o) {
+Vec3 Vec3::mul(const Vec3& o) {
 	x *= o.x;
 	y *= o.y;
 	z *= o.z;
-	return *this;
-}
-
-Vec3 Vec3::div(Vec3 o) {
-	x /= o.x;
-	y /= o.y;
-	z /= o.z;
-	return *this;
-}
-
-Vec3 Vec3::add(float f) {
-	x += f;
-	y += f;
-	z += f;
-	return *this;
-}
-
-Vec3 Vec3::sub(float f) {
-	x -= f;
-	y -= f;
-	z -= f;
 	return *this;
 }
 
@@ -49,40 +28,18 @@ Vec3 Vec3::mul(float f) {
 	return *this;
 }
 
-Vec3 Vec3::div(float f) {
-	x /= f;
-	y /= f;
-	z /= f;
-	return *this;
-}
-
-Vec3& Vec3::operator+=(Vec3& o) {
+Vec3& Vec3::operator+=(const Vec3& o) {
 	this->add(o);
 	return *this;
 }
 
-Vec3& Vec3::operator-=(Vec3& o) {
+Vec3& Vec3::operator-=(const Vec3& o) {
 	this->sub(o);
 	return *this;
 }
 
-Vec3& Vec3::operator*=(Vec3& o) {
+Vec3& Vec3::operator*=(const Vec3& o) {
 	this->mul(o);
-	return *this;
-}
-
-Vec3& Vec3::operator/=(Vec3& o) {
-	this->div(o);
-	return *this;
-}
-
-Vec3& Vec3::operator+=(float f) {
-	this->add(f);
-	return *this;
-}
-
-Vec3& Vec3::operator-=(float f) {
-	this->sub(f);
 	return *this;
 }
 
@@ -91,87 +48,48 @@ Vec3& Vec3::operator*=(float f) {
 	return *this;
 }
 
-Vec3& Vec3::operator/=(float f) {
-	this->div(f);
-	return *this;
+Vec3 add(const Vec3& a, const Vec3& b) {
+	return Vec3{ a.x + b.x,
+		a.y + b.y,
+		a.z + b.z};
 }
 
-Vec3 add(Vec3 a, Vec3 b) {
-	return Vec3{ a.x + b.x, 
-				 a.y + b.y,
-				 a.z + b.z };
-}
-
-Vec3 sub(Vec3 a, Vec3 b) {
+Vec3 sub(const Vec3& a, const Vec3& b) {
 	return Vec3{ a.x - b.x,
-				 a.y - b.y,
-				 a.z - b.z };
+		a.y - b.y,
+		a.z - b.z};
 }
 
-Vec3 mul(Vec3 a, Vec3 b) {
+Vec3 mul(const Vec3& a, const Vec3& b) {
 	return Vec3{ a.x * b.x,
-				 a.y * b.y,
-				 a.z * b.z };
+		a.y * b.y,
+		a.z * b.z};
 }
 
-Vec3 div(Vec3 a, Vec3 b) {
-	return Vec3{ a.x / b.x,
-				 a.y / b.y,
-				 a.z / b.z };
-}
-
-Vec3 add(Vec3 a, float f) {
-	return Vec3{ a.x + f,
-				 a.y + f,
-				 a.z + f };
-}
-
-Vec3 sub(Vec3 a, float f) {
-	return Vec3{ a.x - f,
-				 a.y - f,
-				 a.z - f};
-}
-
-Vec3 mul(Vec3 a, float f) {
+Vec3 mul(const Vec3& a, float f) {
 	return Vec3{ a.x * f,
-				 a.y * f,
-				 a.z * f };
+		a.y * f,
+		a.z * f};
 }
 
-Vec3 div(Vec3 a, float f) {
-	return Vec3{ a.x / f,
-				 a.y / f,
-				 a.z / f };
+Vec3 cross(const Vec3& a, const Vec3& b) {
+	return Vec3{ a.y * b.z - b.y * a.z,
+				 a.z * b.x - b.z * a.x,
+				 a.x * b.y - b.x * a.y };
 }
 
-Vec3 operator+(Vec3 a, Vec3 b) {
+Vec3 operator+(const Vec3& a, const Vec3& b) {
 	return add(a, b);
 }
 
-Vec3 operator-(Vec3 a, Vec3 b) {
+Vec3 operator-(const Vec3& a, const Vec3& b) {
 	return sub(a, b);
 }
 
-Vec3 operator*(Vec3 a, Vec3 b) {
+Vec3 operator*(const Vec3& a, const Vec3& b) {
 	return mul(a, b);
 }
 
-Vec3 operator/(Vec3 a, Vec3 b) {
-	return div(a, b);
-}
-
-Vec3 operator+(Vec3 a, float f) {
-	return add(a, f);
-}
-
-Vec3 operator-(Vec3 a, float f) {
-	return sub(a, f);
-}
-
-Vec3 operator*(Vec3 a, float f) {
+Vec3 operator*(const Vec3& a, float f) {
 	return mul(a, f);
-}
-
-Vec3 operator/(Vec3 a, float f) {
-	return div(a, f);
 }

@@ -19,7 +19,7 @@ int main() {
 			window.handleEvent(e.window);
 			break;
 		}
-		renderer.renderTriangle(window.getFramebuffer(), Vec2{234.0f, 345.0f }, Vec2{140.0f, 354.0f }, Vec2{134.0f, 124.0f }, Vec3{1.0f, 0.5f, 0.5f});
+		renderer.renderTriangle(window.getFramebuffer(), Vec2{10.0f, 300.0f }, Vec2{700.0f, 0.0f }, Vec2{134.0f, 30.0f }, Vec3{1.0f, 0.5f, 0.5f});
 		renderer.renderRect(window.getFramebuffer(), 100, 100, 100, 100, Vec3{ 0.0f, 0.5f, 0.2f });
 		renderer.renderRect(window.getFramebuffer(), 200, 400, 50, 200, Vec3{ 0.5f, 0.0f, 1.0f });
 		renderer.renderRect(window.getFramebuffer(), 200, 500, 100, 400, Vec3{ 1.0f, 1.0f, 1.0f });
