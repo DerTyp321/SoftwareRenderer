@@ -2,10 +2,10 @@
 
 struct Vec3 {
 	float x, y, z;
-	Vec3 add(const Vec3& o);
-	Vec3 sub(const Vec3& o);
-	Vec3 mul(const Vec3& o);
-	Vec3 mul(float f);
+	Vec3& add(const Vec3& o);
+	Vec3& sub(const Vec3& o);
+	Vec3& mul(const Vec3& o);
+	Vec3& mul(float f);
 
 	Vec3& operator+=(const Vec3& o);
 	Vec3& operator-=(const Vec3& o);

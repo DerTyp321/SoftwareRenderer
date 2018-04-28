@@ -1,27 +1,27 @@
 #include "Vec3.h"
 
-Vec3 Vec3::add(const Vec3& o) {
+Vec3& Vec3::add(const Vec3& o) {
 	x += o.x;
 	y += o.y;
 	z += o.z;
 	return *this;
 }
 
-Vec3 Vec3::sub(const Vec3& o) {
+Vec3& Vec3::sub(const Vec3& o) {
 	x -= o.x;
 	y -= o.y;
 	z -= o.z;
 	return *this;
 }
 
-Vec3 Vec3::mul(const Vec3& o) {
+Vec3& Vec3::mul(const Vec3& o) {
 	x *= o.x;
 	y *= o.y;
 	z *= o.z;
 	return *this;
 }
 
-Vec3 Vec3::mul(float f) {
+Vec3& Vec3::mul(float f) {
 	x *= f;
 	y *= f;
 	z *= f;
@@ -70,12 +70,6 @@ Vec3 mul(const Vec3& a, float f) {
 	return Vec3{ a.x * f,
 		a.y * f,
 		a.z * f};
-}
-
-Vec3 cross(const Vec3& a, const Vec3& b) {
-	return Vec3{ a.y * b.z - b.y * a.z,
-				 a.z * b.x - b.z * a.x,
-				 a.x * b.y - b.x * a.y };
 }
 
 Vec3 operator+(const Vec3& a, const Vec3& b) {

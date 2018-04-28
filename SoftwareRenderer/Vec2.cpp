@@ -1,24 +1,24 @@
 #include "Vec2.h"
 
-Vec2 Vec2::add(const Vec2& o) {
+Vec2& Vec2::add(const Vec2& o) {
 	x += o.x;
 	y += o.y;
 	return *this;
 }
 
-Vec2 Vec2::sub(const Vec2& o) {
+Vec2& Vec2::sub(const Vec2& o) {
 	x -= o.x;
 	y -= o.y;
 	return *this;
 }
 
-Vec2 Vec2::mul(const Vec2& o) {
+Vec2& Vec2::mul(const Vec2& o) {
 	x *= o.x;
 	y *= o.y;
 	return *this;
 }
 
-Vec2 Vec2::mul(float f) {
+Vec2& Vec2::mul(float f) {
 	x *= f;
 	y *= f;
 	return *this;
