@@ -3,7 +3,7 @@
 Framebuffer::Framebuffer(int width, int height) {
 	m_width = width;
 	m_height = height;
-	m_colorBuffer = new unsigned char[width * height * 3];
+	m_colorBuffer = new unsigned char[m_width * m_height * 3];
 	m_scanbuffer[0] = new int[m_height];
 	m_scanbuffer[1] = new int[m_height];
 }
@@ -15,9 +15,10 @@ Framebuffer::~Framebuffer() {
 }
 
 void Framebuffer::resize(int width, int height) {
-	delete[] m_colorBuffer;
 	m_width = width;
 	m_height = height;
+	delete[] m_colorBuffer;
+	m_colorBuffer = new unsigned char[width * height * 3];
 	delete[] m_scanbuffer[0];
 	delete[] m_scanbuffer[1];
 	m_scanbuffer[0] = new int[m_height];
