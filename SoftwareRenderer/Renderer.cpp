@@ -35,35 +35,40 @@ void Renderer::renderTriangle(Framebuffer* target, Vec2 v1, Vec2 v2, Vec2 v3, Ve
 		v2 = temp;
 	}
 
-	unsigned char* colorBuffer = target->getColorBuffer();
+	int yStart = (int)top.y;
+	int yMid = (int)mid.y;
+	int yEnd = (int)bot.y;
 
 	float xStep = (bot.x - top.x) / (bot.y - top.y);
 	float x = top.x;
 
-	for (int y = (int)top.y; y < (int)bot.y; y++) {
+	for (int y = yStart; y < yEnd; y++) {
 		x += xStep;
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 0] = (int)(color.x * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 1] = (int)(color.y * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 2] = (int)(color.z * 255);
+		target->setScanbufferStartX(y, (int)x);
 	}
 
 	xStep = (mid.x - top.x) / (mid.y - top.y);
 	x = top.x;
 
-	for (int y = (int)top.y; y < (int)mid.y; y++) {
+	for (int y = yStart; y < yMid; y++) {
 		x += xStep;
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 0] = (int)(color.x * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 1] = (int)(color.y * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 2] = (int)(color.z * 255);
+		target->setScanbufferEndX(y, (int)x);
 	}
 
 	xStep = (bot.x - mid.x) / (bot.y - mid.y);
 	x = mid.x;
 
-	for (int y = (int)mid.y; y < (int)bot.y; y++) {
+	for (int y = yMid; y < yEnd; y++) {
 		x += xStep;
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 0] = (int)(color.x * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 1] = (int)(color.y * 255);
-		colorBuffer[(y * target->getWidth() + (int)x) * 3 + 2] = (int)(color.z * 255);
+		target->setScanbufferEndX(y, (int)x);
+	}
+
+
+	for (int y = yStart; y < yEnd; y++) {
+		int xStart = target->getScanbufferStartX(y);
+		int xEnd = target->getScanbufferEndX(y);
+		for (int x = xStart; x < xEnd; x++) {
+					target->setRGB(x, y, (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255));
+		}
 	}
 }

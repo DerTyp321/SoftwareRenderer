@@ -33,15 +33,28 @@ int Framebuffer::getHeight() {
 	return m_height;
 }
 
-void Framebuffer::setR(int x, int y, unsigned char red) {
+//Warning: set functions don't check bounds
+void Framebuffer::setRGB(int x, int y, unsigned char red, unsigned char green, unsigned char blue) {
+	m_colorBuffer[(x + y * m_width) * 3 + 0] = red;
+	m_colorBuffer[(x + y * m_width) * 3 + 1] = green;
+	m_colorBuffer[(x + y * m_width) * 3 + 2] = blue;
 }
 
-void Framebuffer::setG(int x, int y, unsigned char green) {
+void Framebuffer::setScanbufferStartX(int y, int xStart) {
+	m_scanbuffer[0][y] = xStart;
 }
 
-void Framebuffer::setB(int x, int y, unsigned char blue) {
+void Framebuffer::setScanbufferEndX(int y, int xEnd) {
+	m_scanbuffer[1][y] = xEnd;
 }
 
+int Framebuffer::getScanbufferStartX(int y) {
+	return m_scanbuffer[0][y];
+}
+
+int Framebuffer::getScanbufferEndX(int y) {
+	return m_scanbuffer[1][y];
+}
 unsigned char* Framebuffer::getColorBuffer() {
 	return m_colorBuffer;
 }

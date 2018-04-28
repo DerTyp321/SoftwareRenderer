@@ -7,9 +7,11 @@ public:
 	void resize(int width, int height);
 	int getWidth();
 	int getHeight();
-	void setR(int x, int y, unsigned char red);
-	void setG(int x, int y, unsigned char green);
-	void setB(int x, int y, unsigned char blue);
+	void setRGB(int x, int y, unsigned char red, unsigned char green, unsigned char blue);
+	void setScanbufferStartX(int y, int xStart);
+	void setScanbufferEndX(int y, int xEnd);
+	int getScanbufferStartX(int y);
+	int getScanbufferEndX(int y);
 	unsigned char *getColorBuffer();
 private:
 	int m_width, m_height;
