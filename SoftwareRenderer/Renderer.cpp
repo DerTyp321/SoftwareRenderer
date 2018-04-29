@@ -52,9 +52,9 @@ void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1, const Vec2& v
 		mid = temp;
 	}
 
-	int yStart = (int)top.y;
-	int yMid = (int)mid.y;
-	int yEnd = (int)bot.y;
+	int yStart = (int)ceil(top.y);
+	int yMid = (int)ceil(mid.y);
+	int yEnd = (int)ceil(bot.y);
 
 	Vec2 top2{ top.x, top.y };
 	Vec2 mid2{ mid.x, mid.y };
@@ -62,26 +62,26 @@ void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1, const Vec2& v
 	int handedness = cross(bot2 - top2, mid2 - top2) >= 0.0f ? 1 : 0;
 
 	float xStep = (bot.x - top.x) / (bot.y - top.y);
-	float x = top.x;
+	float x = top.x +(((float)yStart - top.y) * xStep);
 
 	for (int y = yStart; y < yEnd; y++) {
-		target.setScanbufferX(y, (int)x, handedness);
+		target.setScanbufferX(y, (int)ceil(x), handedness);
 		x += xStep;
 	}
 
 	xStep = (mid.x - top.x) / (mid.y - top.y);
-	x = top.x;
+	x = top.x +(((float)yStart - top.y) * xStep);
 
 	for (int y = yStart; y < yMid; y++) {
-		target.setScanbufferX(y, (int)x, 1 - handedness);
+		target.setScanbufferX(y, (int)ceil(x), 1 - handedness);
 		x += xStep;
 	}
 
 	xStep = (bot.x - mid.x) / (bot.y - mid.y);
-	x = mid.x;
+	x = mid.x +(((float)yMid - mid.y) * xStep);
 
 	for (int y = yMid; y < yEnd; y++) {
-		target.setScanbufferX(y, (int)x, 1 - handedness);
+		target.setScanbufferX(y, (int)ceil(x), 1 - handedness);
 		x += xStep;
 	}
 
