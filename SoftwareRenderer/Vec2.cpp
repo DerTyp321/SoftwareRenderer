@@ -1,4 +1,5 @@
 #include "Vec2.h"
+#include <cmath>
 
 Vec2& Vec2::add(const Vec2& o) {
 	x += o.x;
@@ -22,6 +23,17 @@ Vec2& Vec2::mul(float f) {
 	x *= f;
 	y *= f;
 	return *this;
+}
+
+Vec2& Vec2::normalize() {
+	float l = len();
+	x /= l;
+	y /= l;
+	return *this;
+}
+
+float Vec2::len() const {
+	return sqrt(x * x + y * y);
 }
 
 Vec2& Vec2::operator+=(const Vec2& o) {
@@ -64,8 +76,13 @@ Vec2 mul(const Vec2& a, float f) {
 				 a.y * f };
 }
 
+Vec2 normalize(const Vec2 & a) {
+	float l = a.len();
+	return Vec2{ a.x / l, a.y / l };
+}
+
 float cross(const Vec2& a, const Vec2& b) {
-	return (a.x * b.y - b.x * a.y);
+	return (a.x * b.y - a.y * b.x);
 }
 
 Vec2 operator+(const Vec2& a, const Vec2& b) {
