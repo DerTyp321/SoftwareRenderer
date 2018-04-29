@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <iostream>
+#include "DebugUtil.h"
 
 
 Window::Window(std::string title, int width, int height) {
@@ -15,7 +16,7 @@ Window::Window(std::string title, int width, int height) {
 		SDL_Quit();
 		exit(1);
 	}
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_SOFTWARE);
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	if (m_renderer == nullptr) {
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
 		SDL_Quit();
@@ -34,9 +35,9 @@ Window::~Window() {
 }
 
 void Window::draw() {
-
 	SDL_UpdateTexture(m_texture, NULL, m_framebuffer->getColorBuffer(), m_width * 3 * sizeof(unsigned char));
 	SDL_RenderClear(m_renderer);
+
 	SDL_RenderCopyEx(m_renderer, m_texture, NULL, NULL, 0, 0, SDL_FLIP_NONE);
 	SDL_RenderPresent(m_renderer);
 }

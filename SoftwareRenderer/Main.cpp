@@ -10,12 +10,13 @@
 #include "Vec3.h"
 #include "Mat4.h"
 
-
 int main() {
 	ioInit();
+
 	Window window("Main Window", 800, 600);
 	Renderer renderer;
 	SDL_Event e;
+
 	int a = 10;
 	Mat4 model;
 	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, -2.0f);
@@ -32,7 +33,7 @@ int main() {
 			window.handleEvent(e.window);
 			break;
 		}
-		model = Mat4::createRotation(total * 0.243, total * 2.0f, total * 1.376f);
+		model = Mat4::createRotation(total * 0.243f, total * 2.0f, total * 1.376f);
 		projection = Mat4::createProjection(1.0f, (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
 		window.getFramebuffer().clear(0x33, 0x33, 0x33);
 		//renderer.renderTriangle(window.getFramebuffer(), Vec2{ 0.0f, 0.0f }, Vec2{ 1.0f, 0.0f }, Vec2{ 0.5f, 1.0f }, Vec3{1.0f, 1.0f, 1.0f});
@@ -40,6 +41,8 @@ int main() {
 		renderer.renderTriangle3D(window.getFramebuffer(), Vec4{ -0.5f, 0.5f, 0.0f, 1.0f }, Vec4{ 0.5f, -0.5f, 0.0f, 1.0f }, Vec4{ 0.5f, 0.5f, 0.0f, 1.0f }, model, view, projection, Vec3{ 0.0f, 1.0f, 0.0f });
 
 		window.draw();
+
 		lastTime = currentTime;
+
 	}
 }
