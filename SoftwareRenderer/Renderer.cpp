@@ -11,11 +11,21 @@ void Renderer::renderRect(Framebuffer& target, int startX, int startY, int width
 	}
 }
 
-void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1,const Vec2& v2, const Vec2& v3, const Vec3& color) {
-	Vec2 temp;
-	Vec2 top = v1;
-	Vec2 mid = v2;
-	Vec2 bot = v3;
+void Renderer::renderTriangle(Framebuffer& target, const Vec4& v1,const Vec4& v2, const Vec4& v3, Mat4 model, Mat4 view, Mat4 projection, const Vec3& color) {
+	Mat4 mvp = model * view * projection;
+	Vec4 temp;
+	Vec4 top = v1 * mvp;
+	Vec4 mid = v2 * mvp;
+	Vec4 bot = v3 * mvp;
+	top.zDiv();
+	mid.zDiv();
+	bot.zDiv();
+	Vec4 offset{1.0f, 1.0f, 0.0f, 0.0f};
+	Vec4 scale{target.getWidth() / 2.0f, target.getHeight() / 2.0f};
+	top.add(offset).mul(scale);
+	mid.add(offset).mul(scale);
+	bot.add(offset).mul(scale);
+
 	if (top.y > mid.y) {
 		temp = mid;
 		mid = top;
@@ -36,7 +46,10 @@ void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1,const Vec2& v2
 	int yMid = (int)mid.y;
 	int yEnd = (int)bot.y;
 	
-	int handedness = cross(bot - top, mid - top) >= 0.0f ? 1 : 0;
+	Vec2 top2{ top.x, top.y };
+	Vec2 mid2{ mid.x, mid.y };
+	Vec2 bot2{ bot.x, bot.y };
+	int handedness = cross(bot2 - top2, mid2 - top2) >= 0.0f ? 1 : 0;
 
 	float xStep = (bot.x - top.x) / (bot.y - top.y);
 	float x = top.x;

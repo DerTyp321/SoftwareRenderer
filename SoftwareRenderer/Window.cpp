@@ -44,7 +44,6 @@ void Window::draw() {
 void Window::handleEvent(SDL_WindowEvent ev) {
 	switch (ev.event) {
 	case SDL_WINDOWEVENT_RESIZED:
-		std::cout << ev.data1 << " " << ev.data2;
 		m_width = ev.data1;
 		m_height = ev.data2;
 		SDL_DestroyTexture(m_texture);

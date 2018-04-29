@@ -34,20 +34,21 @@ Mat4 Mat4::createRotation(float x, float y, float z) {
 
 Mat4 Mat4::createTranslation(float x, float y, float z) {
 	return Mat4{ {
-		{ x   , 0.0f, 0.0f , 0.0f },
-		{ 0.0f, y   , 0.0f , 0.0f },
-		{ 0.0f, 0.0f, z    , 0.0f },
+		{ 1.0f, 0.0f, 0.0f , x    },
+		{ 0.0f, 1.0f, 0.0f , y    },
+		{ 0.0f, 0.0f, 1.0f , z    },
 		{ 0.0f, 0.0f, 0.0f , 1.0f }
 	} };
 }
 
 Mat4 Mat4::createScale(float x, float y, float z) {
 	return Mat4{ {
-		{ 1.0f, 0.0f, 0.0f , 0.0f },
-		{ 0.0f, 1.0f, 0.0f , 0.0f },
-		{ 0.0f, 0.0f, 1.0f , 0.0f },
+		{ x   , 0.0f, 0.0f , 0.0f },
+		{ 0.0f, y   , 0.0f , 0.0f },
+		{ 0.0f, 0.0f, z    , 0.0f },
 		{ 0.0f, 0.0f, 0.0f , 1.0f }
 	} };
+
 }
 
 Mat4 Mat4::createProjection(float fov, float aspectRatio, float zNear, float zFar) {
