@@ -9,6 +9,8 @@ public:
 	~Window();
 	void draw();
 	void handleEvent(SDL_WindowEvent ev);
+	int getWidth();
+	int getHeight();
 	Framebuffer& getFramebuffer();
 private:
 	int m_width, m_height;

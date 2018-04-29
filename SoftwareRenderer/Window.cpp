@@ -53,6 +53,14 @@ void Window::handleEvent(SDL_WindowEvent ev) {
 	}
 }
 
+int Window::getWidth() {
+	return m_width;
+}
+
+int Window::getHeight() {
+	return m_height;
+}
+
 Framebuffer& Window::getFramebuffer() {
 	return *m_framebuffer;
 }
