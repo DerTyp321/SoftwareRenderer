@@ -19,11 +19,28 @@ int main() {
 
 	int a = 10;
 	Mat4 model;
-	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, -2.0f);
+	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, -5.0f);
 	Mat4 projection;
 	uint32_t lastTime = 0;
 	float delta = 0;
 	float total = 0;
+
+	Mesh cube;
+	cube.addVertex(Vertex{ Vec3{ +1.0f, +1.0f, +1.0f} });
+	cube.addVertex(Vertex{ Vec3{ +1.0f, +1.0f, -1.0f } });
+	cube.addVertex(Vertex{ Vec3{ +1.0f, -1.0f, +1.0f } });
+	cube.addVertex(Vertex{ Vec3{ +1.0f, -1.0f, -1.0f } });
+	cube.addVertex(Vertex{ Vec3{ -1.0f, +1.0f, +1.0f } });
+	cube.addVertex(Vertex{ Vec3{ -1.0f, +1.0f, -1.0f } });
+	cube.addVertex(Vertex{ Vec3{ -1.0f, -1.0f, +1.0f } });
+	cube.addVertex(Vertex{ Vec3{ -1.0f, -1.0f, -1.0f } });
+	cube.addIndex(0); cube.addIndex(1); cube.addIndex(2);		cube.addIndex(1); cube.addIndex(2); cube.addIndex(3);
+	cube.addIndex(4); cube.addIndex(5); cube.addIndex(6);		cube.addIndex(5); cube.addIndex(6); cube.addIndex(7);
+	cube.addIndex(0); cube.addIndex(1); cube.addIndex(4);		cube.addIndex(1); cube.addIndex(4); cube.addIndex(5);
+	cube.addIndex(2); cube.addIndex(3); cube.addIndex(6);		cube.addIndex(3); cube.addIndex(6); cube.addIndex(7);
+	cube.addIndex(0); cube.addIndex(2); cube.addIndex(4);		cube.addIndex(2); cube.addIndex(4); cube.addIndex(6);
+	cube.addIndex(1); cube.addIndex(3); cube.addIndex(5);		cube.addIndex(3); cube.addIndex(5); cube.addIndex(7);
+
 	while (SDL_PollEvent(&e), e.type != SDL_QUIT) {
 		uint32_t currentTime = SDL_GetTicks();
 		delta = (float)(currentTime - lastTime) * 0.001f;
@@ -36,9 +53,8 @@ int main() {
 		model = Mat4::createRotation(total * 0.243f, total * 2.0f, total * 1.376f);
 		projection = Mat4::createProjection(1.0f, (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
 		window.getFramebuffer().clear(0x33, 0x33, 0x33);
-		//renderer.renderTriangle(window.getFramebuffer(), Vec2{ 0.0f, 0.0f }, Vec2{ 1.0f, 0.0f }, Vec2{ 0.5f, 1.0f }, Vec3{1.0f, 1.0f, 1.0f});
-		renderer.renderTriangle3D(window.getFramebuffer(), Vec4{-0.5f, -0.5f, 0.0f, 1.0f}, Vec4{ 0.5f, -0.5f, 0.0f, 1.0f }, Vec4{ -0.5f, 0.5f, 0.0f, 1.0f }, model, view, projection, Vec3{1.0f, 0.0f, 0.0f});
-		renderer.renderTriangle3D(window.getFramebuffer(), Vec4{ -0.5f, 0.5f, 0.0f, 1.0f }, Vec4{ 0.5f, -0.5f, 0.0f, 1.0f }, Vec4{ 0.5f, 0.5f, 0.0f, 1.0f }, model, view, projection, Vec3{ 0.0f, 1.0f, 0.0f });
+
+		renderer.renderMesh(window.getFramebuffer(), cube, model, view, projection, Vec3{1.0f, 0.0f, 0.0f});
 
 		window.draw();
 

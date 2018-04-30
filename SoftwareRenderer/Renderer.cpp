@@ -12,6 +12,19 @@ void Renderer::renderRect(Framebuffer& target, int startX, int startY, int width
 	}
 }
 
+void Renderer::renderMesh(Framebuffer & target, Mesh mesh, Mat4 model, Mat4 view, Mat4 projection, const Vec3 & color) {
+	std::vector<Vertex>& vertices = mesh.getVertices();
+	std::vector<int> indices = mesh.getIndices();
+	int faces = indices.size() / 3;
+	for (int i = 0; i < faces; i++) {
+		renderTriangle3D(target,
+						 vertices[indices[i * 3 + 0]].getPosVec4(),
+						 vertices[indices[i * 3 + 1]].getPosVec4(),
+						 vertices[indices[i * 3 + 2]].getPosVec4(),
+						 model, view, projection, Vec3{ sin(i * 1531.1345f) * 0.5f + 0.5f, sin(i * 143.635f) * 0.5f + 0.5f, sin(i * 1242.4625f) * 0.5f + 0.5f });
+	}
+}
+
 void Renderer::renderTriangle3D(Framebuffer& target, const Vec4& v1,const Vec4& v2, const Vec4& v3, Mat4 model, Mat4 view, Mat4 projection, const Vec3& color) {
 	Mat4 mvp = projection * view * model;
 
