@@ -1,11 +1,19 @@
 #pragma once
 #include <vector>
+#include "Vec2.h"
 #include "Vec3.h"
 #include "Vec4.h"
+#include "Mat4.h"
 
-struct Vertex {
-	Vec3 pos;
-	Vec4 getPosVec4();
+class Vertex {
+public:
+	Vertex(float x, float y, float z);
+	void transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight);
+	bool compareY(const Vertex& o) const;
+	bool handedness(const Vertex& a, const Vertex& b) const;
+	const Vec4& getPos() const;
+private:
+	Vec4 m_pos;
 };
 
 class Mesh {

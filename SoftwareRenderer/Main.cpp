@@ -26,14 +26,15 @@ int main() {
 	float total = 0;
 
 	Mesh cube;
-	cube.addVertex(Vertex{ Vec3{ +1.0f, +1.0f, +1.0f} });
-	cube.addVertex(Vertex{ Vec3{ +1.0f, +1.0f, -1.0f } });
-	cube.addVertex(Vertex{ Vec3{ +1.0f, -1.0f, +1.0f } });
-	cube.addVertex(Vertex{ Vec3{ +1.0f, -1.0f, -1.0f } });
-	cube.addVertex(Vertex{ Vec3{ -1.0f, +1.0f, +1.0f } });
-	cube.addVertex(Vertex{ Vec3{ -1.0f, +1.0f, -1.0f } });
-	cube.addVertex(Vertex{ Vec3{ -1.0f, -1.0f, +1.0f } });
-	cube.addVertex(Vertex{ Vec3{ -1.0f, -1.0f, -1.0f } });
+	cube.addVertex(Vertex( +1.0f, +1.0f, +1.0f ));
+	cube.addVertex(Vertex( +1.0f, +1.0f, -1.0f ));
+	cube.addVertex(Vertex( +1.0f, -1.0f, +1.0f ));
+	cube.addVertex(Vertex( +1.0f, -1.0f, -1.0f ));
+	cube.addVertex(Vertex( -1.0f, +1.0f, +1.0f ));
+	cube.addVertex(Vertex( -1.0f, +1.0f, -1.0f ));
+	cube.addVertex(Vertex( -1.0f, -1.0f, +1.0f ));
+	cube.addVertex(Vertex( -1.0f, -1.0f, -1.0f ));
+
 	cube.addIndex(0); cube.addIndex(1); cube.addIndex(2);		cube.addIndex(1); cube.addIndex(2); cube.addIndex(3);
 	cube.addIndex(4); cube.addIndex(5); cube.addIndex(6);		cube.addIndex(5); cube.addIndex(6); cube.addIndex(7);
 	cube.addIndex(0); cube.addIndex(1); cube.addIndex(4);		cube.addIndex(1); cube.addIndex(4); cube.addIndex(5);
@@ -54,7 +55,7 @@ int main() {
 		projection = Mat4::createProjection(1.0f, (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
 		window.getFramebuffer().clear(0x33, 0x33, 0x33);
 
-		renderer.renderMesh(window.getFramebuffer(), cube, model, view, projection, Vec3{1.0f, 0.0f, 0.0f});
+		renderer.renderMesh(window.getFramebuffer(), cube, projection * view * model, Vec3{1.0f, 0.0f, 0.0f});
 
 		window.draw();
 

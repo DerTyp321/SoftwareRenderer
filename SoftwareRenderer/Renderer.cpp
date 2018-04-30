@@ -12,97 +12,84 @@ void Renderer::renderRect(Framebuffer& target, int startX, int startY, int width
 	}
 }
 
-void Renderer::renderMesh(Framebuffer & target, Mesh mesh, Mat4 model, Mat4 view, Mat4 projection, const Vec3 & color) {
+void Renderer::renderMesh(Framebuffer & target, Mesh mesh, Mat4 mvp, const Vec3 & color) {
 	std::vector<Vertex>& vertices = mesh.getVertices();
 	std::vector<int> indices = mesh.getIndices();
 	int faces = indices.size() / 3;
 	for (int i = 0; i < faces; i++) {
-		renderTriangle3D(target,
-						 vertices[indices[i * 3 + 0]].getPosVec4(),
-						 vertices[indices[i * 3 + 1]].getPosVec4(),
-						 vertices[indices[i * 3 + 2]].getPosVec4(),
-						 model, view, projection, Vec3{ sin(i * 1531.1345f) * 0.5f + 0.5f, sin(i * 143.635f) * 0.5f + 0.5f, sin(i * 1242.4625f) * 0.5f + 0.5f });
+		renderTriangle(
+			target,
+			vertices[indices[i * 3 + 0]],
+			vertices[indices[i * 3 + 1]],
+			vertices[indices[i * 3 + 2]],
+			mvp
+		);
 	}
 }
 
-void Renderer::renderTriangle3D(Framebuffer& target, const Vec4& v1,const Vec4& v2, const Vec4& v3, Mat4 model, Mat4 view, Mat4 projection, const Vec3& color) {
-	Mat4 mvp = projection * view * model;
+void Renderer::renderTriangle(Framebuffer& target, Vertex v1, Vertex v2, Vertex v3, const Mat4& mvp) {
 
-	Vec4 v1Screen = v1 * mvp;
-	Vec4 v2Screen = v2 * mvp;
-	Vec4 v3Screen = v3 * mvp;
-	v1Screen.zDiv();
-	v2Screen.zDiv();
-	v3Screen.zDiv();
-	
-	renderTriangle(target, Vec2{v1Screen.x, v1Screen.y}, Vec2{ v2Screen.x, v2Screen.y }, Vec2{ v3Screen.x, v3Screen.y }, color);
-}
+	v1.transformToScreen(mvp, target.getWidth(), target.getHeight());
+	v2.transformToScreen(mvp, target.getWidth(), target.getHeight());
+	v3.transformToScreen(mvp, target.getWidth(), target.getHeight());
 
-void Renderer::renderTriangle(Framebuffer& target, const Vec2& v1, const Vec2& v2, const Vec2& v3, const Vec3& color) {
-	Vec2 top = v1;
-	Vec2 mid = v2;
-	Vec2 bot = v3;
-	Vec2 temp;
-	Vec2 offset{ 1.0f, 1.0f};
-	Vec2 scale{ target.getWidth() / 2.0f, target.getHeight() / 2.0f };
-	top.add(offset).mul(scale);
-	mid.add(offset).mul(scale);
-	bot.add(offset).mul(scale);
+	Vertex* top = &v1;
+	Vertex* mid = &v2;
+	Vertex* bot = &v3;
+	Vertex* temp;
 
-	if (top.y > mid.y) {
+	if (top->compareY(*mid)) {
 		temp = mid;
 		mid = top;
 		top = temp;
 	}
-	if (top.y > bot.y) {
+	if (top->compareY(*bot)) {
 		temp = bot;
 		bot = top;
 		top = temp;
 	}
-	if (mid.y > bot.y) {
+	if (mid->compareY(*bot)) {
 		temp = bot;
 		bot = mid;
 		mid = temp;
 	}
 
-	int yStart = (int)ceil(top.y);
-	int yMid = (int)ceil(mid.y);
-	int yEnd = (int)ceil(bot.y);
+	Edge topToBot(*top, *bot);
+	Edge topToMid(*top, *mid);
+	Edge midToBot(*mid, *bot);
 
-	Vec2 top2{ top.x, top.y };
-	Vec2 mid2{ mid.x, mid.y };
-	Vec2 bot2{ bot.x, bot.y };
-	int handedness = cross(bot2 - top2, mid2 - top2) >= 0.0f ? 1 : 0;
+	bool handedness = top->handedness(*mid, *bot);
 
-	float xStep = (bot.x - top.x) / (bot.y - top.y);
-	float x = top.x +(((float)yStart - top.y) * xStep);
+	Edge* left;
+	Edge* right;
 
+	if (handedness) {
+		left = &topToBot;
+		right = &topToMid;
+	}
+	else {
+		left = &topToMid;
+		right = &topToBot;
+	}
+	scanTriangleHalf(target, left, right, topToMid.getYStart(), topToMid.getYEnd());
+
+	if (handedness) {
+		right = &midToBot;
+	}
+	else {
+		left = &midToBot;
+	}
+	scanTriangleHalf(target, left, right, midToBot.getYStart(), midToBot.getYEnd());
+}
+
+void Renderer::scanTriangleHalf(Framebuffer& target, Edge* left, Edge* right, int yStart, int yEnd) {
 	for (int y = yStart; y < yEnd; y++) {
-		target.setScanbufferX(y, (int)ceil(x), handedness);
-		x += xStep;
-	}
-
-	xStep = (mid.x - top.x) / (mid.y - top.y);
-	x = top.x +(((float)yStart - top.y) * xStep);
-
-	for (int y = yStart; y < yMid; y++) {
-		target.setScanbufferX(y, (int)ceil(x), 1 - handedness);
-		x += xStep;
-	}
-
-	xStep = (bot.x - mid.x) / (bot.y - mid.y);
-	x = mid.x +(((float)yMid - mid.y) * xStep);
-
-	for (int y = yMid; y < yEnd; y++) {
-		target.setScanbufferX(y, (int)ceil(x), 1 - handedness);
-		x += xStep;
-	}
-
-	for (int y = yStart; y < yEnd; y++) {
-		int xStart = target.getScanbufferStartX(y);
-		int xEnd = target.getScanbufferEndX(y);
+		int xStart = (int)ceil(left->getXPos());
+		int xEnd = (int)ceil(right->getXPos());
 		for (int x = xStart; x < xEnd; x++) {
-			target.setRGB(x, y, (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255));
+			target.setRGB(x, y, 0xff, 0xff, 0xff);
 		}
+		left->step();
+		right->step();
 	}
 }
