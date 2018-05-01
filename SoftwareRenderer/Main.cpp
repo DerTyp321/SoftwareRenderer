@@ -51,7 +51,7 @@ int main() {
 	Texture tex(8, 8);
 	for (int x = 0; x < 8; x++) {
 		for (int y = 0; y < 8; y++) {
-			tex.setPixel(x, y, x * 32, y * 32, 100);
+			tex.setPixel(x, y, x * 32 | y * 32 << 8 | 100 << 16);
 		}
 	}
 
@@ -67,7 +67,7 @@ int main() {
 		}
 		model = Mat4::createRotation(total * 0.243f, total * 2.0f, total * 1.376f);
 		projection = Mat4::createProjection(1.0f, (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
-		window.getFramebuffer().clear(0x33, 0x33, 0x33);
+		window.getFramebuffer().clear(0x333333);
 
 		renderer.renderMesh(window.getFramebuffer(), tex, cube, projection * view * model, Vec3{1.0f, 0.0f, 0.0f});
 

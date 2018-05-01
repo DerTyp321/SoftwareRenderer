@@ -22,7 +22,7 @@ Window::Window(std::string title, int width, int height) {
 		SDL_Quit();
 		exit(1);
 	}
-	m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
+	m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
 	m_framebuffer = new Framebuffer(m_width, m_height);
 }
 
@@ -35,7 +35,7 @@ Window::~Window() {
 }
 
 void Window::draw() {
-	SDL_UpdateTexture(m_texture, NULL, m_framebuffer->getColorBuffer(), m_width * 3 * sizeof(unsigned char));
+	SDL_UpdateTexture(m_texture, NULL, m_framebuffer->getColorBuffer(), m_width * sizeof(int));
 	SDL_RenderClear(m_renderer);
 
 	SDL_RenderCopyEx(m_renderer, m_texture, NULL, NULL, 0, 0, SDL_FLIP_NONE);
@@ -48,7 +48,7 @@ void Window::handleEvent(SDL_WindowEvent ev) {
 		m_width = ev.data1;
 		m_height = ev.data2;
 		SDL_DestroyTexture(m_texture);
-		m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
+		m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
 		m_framebuffer->resize(m_width, m_height);
 		break;
 	}

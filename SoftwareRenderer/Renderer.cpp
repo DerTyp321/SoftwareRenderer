@@ -93,7 +93,7 @@ void Renderer::scanTriangleHalf(Framebuffer& target, const Texture& texture,  Ed
 			float z = 1.0f / oneOverZ;
 			Vec3 color = texture.sample(texCoords * z);
 			if (depth < target.getDepth(x, y)) {
-				target.setPixel(x, y, (int)(color.x * 255.0f), (int)(color.y * 255.0f), (int)(color.z * 255.0f), depth);
+				target.setPixel(x, y, ((int)(color.x * 255.0f)) | ((int)(color.y * 255.0f) << 8) | ((int)(color.z * 255.0f) << 16), depth);
 			}
 			texCoords += texCoordsXStep;
 			oneOverZ += oneOverZXStep;
