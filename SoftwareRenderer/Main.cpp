@@ -14,9 +14,7 @@ int main() {
 
 	Window window("Main Window", 800, 600);
 	Renderer renderer;
-	SDL_Event e;
 
-	int a = 10;
 	Mat4 model;
 	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, -5.0f);
 	Mat4 projection;
@@ -25,14 +23,14 @@ int main() {
 	float total = 0;
 
 	Mesh cube;
-	cube.addVertex(Vertex( +1.0f, +1.0f, +1.0f ));
-	cube.addVertex(Vertex( +1.0f, +1.0f, -1.0f ));
-	cube.addVertex(Vertex( +1.0f, -1.0f, +1.0f ));
-	cube.addVertex(Vertex( +1.0f, -1.0f, -1.0f ));
-	cube.addVertex(Vertex( -1.0f, +1.0f, +1.0f ));
-	cube.addVertex(Vertex( -1.0f, +1.0f, -1.0f ));
-	cube.addVertex(Vertex( -1.0f, -1.0f, +1.0f ));
-	cube.addVertex(Vertex( -1.0f, -1.0f, -1.0f ));
+	cube.addVertex(Vertex( +1.0f, +1.0f, +1.0f, 1.0f, 0.0f, 0.0f));
+	cube.addVertex(Vertex( +1.0f, +1.0f, -1.0f, 0.0f, 1.0f, 0.0f));
+	cube.addVertex(Vertex( +1.0f, -1.0f, +1.0f, 0.0f, 0.0f, 1.0f));
+	cube.addVertex(Vertex( +1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 0.0f));
+	cube.addVertex(Vertex( -1.0f, +1.0f, +1.0f, 0.0f, 1.0f, 1.0f));
+	cube.addVertex(Vertex( -1.0f, +1.0f, -1.0f, 1.0f, 0.0f, 1.0f));
+	cube.addVertex(Vertex( -1.0f, -1.0f, +1.0f, 1.0f, 1.0f, 1.0f));
+	cube.addVertex(Vertex( -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f));
 
 	cube.addIndex(0); cube.addIndex(1); cube.addIndex(2);		cube.addIndex(1); cube.addIndex(2); cube.addIndex(3);
 	cube.addIndex(4); cube.addIndex(5); cube.addIndex(6);		cube.addIndex(5); cube.addIndex(6); cube.addIndex(7);
@@ -41,6 +39,7 @@ int main() {
 	cube.addIndex(0); cube.addIndex(2); cube.addIndex(4);		cube.addIndex(2); cube.addIndex(4); cube.addIndex(6);
 	cube.addIndex(1); cube.addIndex(3); cube.addIndex(5);		cube.addIndex(3); cube.addIndex(5); cube.addIndex(7);
 
+	SDL_Event e;
 	while (SDL_PollEvent(&e), e.type != SDL_QUIT) {
 		uint32_t currentTime = SDL_GetTicks();
 		delta = (float)(currentTime - lastTime) * 0.001f;

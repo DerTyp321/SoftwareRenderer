@@ -134,6 +134,7 @@
     <ClCompile Include="DebugUtil.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="Gradients.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mat4.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="DebugUtil.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="Gradients.h" />
     <ClInclude Include="Mat4.h" />
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Mesh.h" />

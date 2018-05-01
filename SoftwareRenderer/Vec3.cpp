@@ -41,6 +41,10 @@ float Vec3::len() const {
 	return sqrt(x * x + y * y + z * z);
 }
 
+Vec3 Vec3::lerp(const Vec3 & o, float amt) {
+	return *this + ((o - *this) * amt);
+}
+
 Vec3& Vec3::operator+=(const Vec3& o) {
 	this->add(o);
 	return *this;

@@ -54,9 +54,11 @@ void Renderer::renderTriangle(Framebuffer& target, Vertex v1, Vertex v2, Vertex 
 		mid = temp;
 	}
 
-	Edge topToBot(*top, *bot);
-	Edge topToMid(*top, *mid);
-	Edge midToBot(*mid, *bot);
+	Gradients grad(*top, *mid, *bot);
+
+	Edge topToBot(grad, *top, *bot, 0);
+	Edge topToMid(grad, *top, *mid, 0);
+	Edge midToBot(grad, *mid, *bot, 1);
 
 	bool handedness = top->handedness(*mid, *bot);
 
@@ -86,8 +88,14 @@ void Renderer::scanTriangleHalf(Framebuffer& target, Edge* left, Edge* right, in
 	for (int y = yStart; y < yEnd; y++) {
 		int xStart = (int)ceil(left->getXPos());
 		int xEnd = (int)ceil(right->getXPos());
+		Vec3 colorStart = left->getColor();
+		Vec3 colorEnd = right->getColor();
+		float lerpAmt = 0.0f;
+		float lerpStep = 1.0f / (float)(xEnd-xStart);
 		for (int x = xStart; x < xEnd; x++) {
-			target.setRGB(x, y, 0xff, 0xff, 0xff);
+			Vec3 color = colorStart.lerp(colorEnd, lerpAmt);
+			target.setRGB(x, y, (int)(color.x * 255.0f + 0.5f), (int)(color.y * 255.0f + 0.5f), (int)(color.z * 255.0f + 0.5f));
+			lerpAmt += lerpStep;
 		}
 		left->step();
 		right->step();

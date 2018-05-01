@@ -11,6 +11,8 @@ struct Vec3 {
 
 	float len() const;
 
+	Vec3 lerp(const Vec3& o, float amt);
+
 	Vec3& operator+=(const Vec3& o);
 	Vec3& operator-=(const Vec3& o);
 	Vec3& operator*=(const Vec3& o);

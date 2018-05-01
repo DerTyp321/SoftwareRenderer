@@ -9,6 +9,8 @@ struct Vec4 {
 	
 	Vec4& zDiv();
 
+	Vec4 lerp(const Vec4& o, float amt);
+
 	Vec4& operator+=(const Vec4& o);
 	Vec4& operator-=(const Vec4& o);
 	Vec4& operator*=(const Vec4& o);

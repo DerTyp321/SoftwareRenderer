@@ -1,7 +1,8 @@
 #include "Vertex.h"
 
-Vertex::Vertex(float x, float y, float z) {
+Vertex::Vertex(float x, float y, float z, float r, float g, float b) {
 	m_pos = Vec4{ x, y, z, 1.0f };
+	m_color = Vec3{ r, g, b};
 }
 
 void Vertex::transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight) {
@@ -26,4 +27,8 @@ bool Vertex::handedness(const Vertex & a, const Vertex & b) const {
 
 const Vec4& Vertex::getPos() const {
 	return m_pos;
+}
+
+const Vec3 & Vertex::getColor() const {
+	return m_color;
 }

@@ -40,6 +40,10 @@ Vec4& Vec4::zDiv() {
 	return *this;
 }
 
+Vec4 Vec4::lerp(const Vec4 & o, float amt) {
+	return *this + ((o - *this) * amt);
+}
+
 Vec4& Vec4::operator+=(const Vec4& o) {
 	this->add(o);
 	return *this;

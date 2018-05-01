@@ -36,6 +36,10 @@ float Vec2::len() const {
 	return sqrt(x * x + y * y);
 }
 
+Vec2 Vec2::lerp(const Vec2 & o, float amt) {
+	return *this + ((o - *this) * amt);
+}
+
 Vec2& Vec2::operator+=(const Vec2& o) {
 	this->add(o);
 	return *this;
