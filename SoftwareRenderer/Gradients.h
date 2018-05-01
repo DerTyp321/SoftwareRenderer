@@ -6,12 +6,12 @@
 class Gradients {
 public:
 	Gradients(Vertex top, Vertex mid, Vertex bot);
-	const Vec3& getColor(int index);
-	const Vec3& getColorXStep();
-	const Vec3& getColorYStep();
+	const Vec2& getTexCoords(int index);
+	const Vec2& getTexCoordsXStep();
+	const Vec2& getTexCoordsYStep();
 private:
-	Vec3 m_color[3]{};
-	Vec3 m_colorXStep;
-	Vec3 m_colorYStep;
+	Vec2 m_texCoords[3]{};
+	Vec2 m_texCoordsXStep;
+	Vec2 m_texCoordsYStep;
 	
 };

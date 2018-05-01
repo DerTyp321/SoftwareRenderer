@@ -1,8 +1,8 @@
 #include "Vertex.h"
 
-Vertex::Vertex(float x, float y, float z, float r, float g, float b) {
+Vertex::Vertex(float x, float y, float z, float texX, float texY) {
 	m_pos = Vec4{ x, y, z, 1.0f };
-	m_color = Vec3{ r, g, b};
+	m_texCoords = Vec2{ texX, texY};
 }
 
 void Vertex::transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight) {
@@ -29,6 +29,6 @@ const Vec4& Vertex::getPos() const {
 	return m_pos;
 }
 
-const Vec3 & Vertex::getColor() const {
-	return m_color;
+const Vec2& Vertex::getTexCoords() const {
+	return m_texCoords;
 }

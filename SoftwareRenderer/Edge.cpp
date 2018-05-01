@@ -8,13 +8,13 @@ Edge::Edge(Gradients gradients, Vertex start, Vertex end, int startIndex) {
 	m_xPos = start.getPos().x + yPre * m_xStep;
 	float xPre = m_xPos - start.getPos().x;
 
-	m_color = gradients.getColor(startIndex) + gradients.getColorYStep() * yPre + gradients.getColorXStep() * xPre;
-	m_colorStep = gradients.getColorYStep() + gradients.getColorXStep() * m_xStep;
+	m_texCoords = gradients.getTexCoords(startIndex) + gradients.getTexCoordsYStep() * yPre + gradients.getTexCoordsXStep() * xPre;
+	m_texCoordsStep = gradients.getTexCoordsYStep() + gradients.getTexCoordsXStep() * m_xStep;
 }
 
 void Edge::step() {
 	m_xPos += m_xStep;
-	m_color += m_colorStep;
+	m_texCoords += m_texCoordsStep;
 }
 
 int Edge::getYStart() {
@@ -29,6 +29,6 @@ float Edge::getXPos() {
 	return m_xPos;
 }
 
-const Vec3 & Edge::getColor() {
-	return m_color;
+const Vec2& Edge::getTexCoords() {
+	return m_texCoords;
 }

@@ -1,9 +1,9 @@
 #include "Gradients.h"
 
 Gradients::Gradients(Vertex top, Vertex mid, Vertex bot) {
-	m_color[0] = top.getColor();
-	m_color[1] = mid.getColor();
-	m_color[2] = bot.getColor();
+	m_texCoords[0] = top.getTexCoords();
+	m_texCoords[1] = mid.getTexCoords();
+	m_texCoords[2] = bot.getTexCoords();
 
 	float oneOverdX = 1.0f / (
 		(mid.getPos().x - bot.getPos().x) *
@@ -13,29 +13,29 @@ Gradients::Gradients(Vertex top, Vertex mid, Vertex bot) {
 	);
 	float oneOverdY = -oneOverdX;
 	
-	m_colorXStep = (
-		(m_color[1] - m_color[2]) *
+	m_texCoordsXStep = (
+		(m_texCoords[1] - m_texCoords[2]) *
 		(top.getPos().y - bot.getPos().y) -
-		(m_color[0] - m_color[2]) *
+		(m_texCoords[0] - m_texCoords[2]) *
 		(mid.getPos().y - bot.getPos().y)
 	) * oneOverdX;
 
-	m_colorYStep = (
-		(m_color[1] - m_color[2]) *
+	m_texCoordsYStep = (
+		(m_texCoords[1] - m_texCoords[2]) *
 		(top.getPos().x - bot.getPos().x) -
-		(m_color[0] - m_color[2]) *
+		(m_texCoords[0] - m_texCoords[2]) *
 		(mid.getPos().x - bot.getPos().x)
 	) * oneOverdY;
 }
 
-const Vec3& Gradients::getColor(int index) {
-	return m_color[index];
+const Vec2& Gradients::getTexCoords(int index) {
+	return m_texCoords[index];
 }
 
-const Vec3& Gradients::getColorXStep() {
-	return m_colorXStep;
+const Vec2& Gradients::getTexCoordsXStep() {
+	return m_texCoordsXStep;
 }
 
-const Vec3& Gradients::getColorYStep() {
-	return m_colorYStep;
+const Vec2& Gradients::getTexCoordsYStep() {
+	return m_texCoordsYStep;
 }

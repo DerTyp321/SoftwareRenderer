@@ -9,12 +9,12 @@ public:
 	int getYStart();
 	int getYEnd();
 	float getXPos();
-	const Vec3& getColor();
+	const Vec2& getTexCoords();
 private:
 	int m_yStart;
 	int m_yEnd;
 	float m_xPos;
 	float m_xStep;
-	Vec3 m_color;
-	Vec3 m_colorStep;
+	Vec2 m_texCoords;
+	Vec2 m_texCoordsStep;
 };
