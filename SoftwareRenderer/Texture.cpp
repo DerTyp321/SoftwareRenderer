@@ -18,12 +18,16 @@ void Texture::setPixel(int x, int y, unsigned char red, unsigned char green, uns
 }
 
 Vec3 Texture::sample(Vec2 coords) const {
-	int x = (int)(coords.x * (float)(m_width-1) + 0.5f);
-	int y = (int)(coords.y * (float)(m_height-1) + 0.5f);
+	int x = (int)(coords.x * (float)(m_width));
+	int y = (int)(coords.y * (float)(m_height));
+	if (x < 0) x = 0;
+	if (y < 0) y = 0;
+	if (x >= m_width) x = m_width - 1;
+	if (y >= m_height) y = m_height - 1;
 	return Vec3{ 
-		(float)m_colorBuffer[(x + y * m_width) * 3 + 0] - 0.5f / 255.0f,
-		(float)m_colorBuffer[(x + y * m_width) * 3 + 1] - 0.5f / 255.0f,
-		(float)m_colorBuffer[(x + y * m_width) * 3 + 2] - 0.5f / 255.0f
+		(float)m_colorBuffer[(x + y * m_width) * 3 + 0] / 255.0f,
+		(float)m_colorBuffer[(x + y * m_width) * 3 + 1] / 255.0f,
+		(float)m_colorBuffer[(x + y * m_width) * 3 + 2] / 255.0f
 	};
 }
 

@@ -17,7 +17,7 @@ int main() {
 	Renderer renderer;
 
 	Mat4 model;
-	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, -5.0f);
+	Mat4 view = Mat4::createTranslation(0.0f, 0.0f, 5.0f);
 	Mat4 projection;
 	uint32_t lastTime = 0;
 	float delta = 0;

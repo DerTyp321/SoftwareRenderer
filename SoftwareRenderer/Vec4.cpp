@@ -36,7 +36,6 @@ Vec4& Vec4::zDiv() {
 	x /= w;
 	y /= w;
 	z /= w;
-	w /= w;
 	return *this;
 }
 
@@ -96,7 +95,7 @@ Vec4 zDiv(const Vec4& a) {
 	return Vec4{ a.x / a.w,
 		a.y / a.w,
 		a.z / a.w,
-		a.w / a.w };
+		a.w};
 }
 
 

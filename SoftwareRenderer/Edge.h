@@ -10,6 +10,8 @@ public:
 	int getYEnd();
 	float getXPos();
 	const Vec2& getTexCoords();
+	float getOneOverZ();
+	float getDepth();
 private:
 	int m_yStart;
 	int m_yEnd;
@@ -17,4 +19,8 @@ private:
 	float m_xStep;
 	Vec2 m_texCoords;
 	Vec2 m_texCoordsStep;
+	float m_oneOverZ;
+	float m_oneOverZStep;
+	float m_depth;
+	float m_depthStep;
 };

@@ -10,11 +10,19 @@ Edge::Edge(Gradients gradients, Vertex start, Vertex end, int startIndex) {
 
 	m_texCoords = gradients.getTexCoords(startIndex) + gradients.getTexCoordsYStep() * yPre + gradients.getTexCoordsXStep() * xPre;
 	m_texCoordsStep = gradients.getTexCoordsYStep() + gradients.getTexCoordsXStep() * m_xStep;
+
+	m_oneOverZ = gradients.getOneOverZ(startIndex) + gradients.getOneOverZYStep() * yPre + gradients.getOneOverZXStep() * xPre;
+	m_oneOverZStep = gradients.getOneOverZYStep() + gradients.getOneOverZXStep() * m_xStep;
+
+	m_depth = gradients.getDepth(startIndex) + gradients.getDepthYStep() * yPre + gradients.getDepthXStep() * xPre;
+	m_depthStep = gradients.getDepthYStep() + gradients.getDepthXStep() * m_xStep;
 }
 
 void Edge::step() {
 	m_xPos += m_xStep;
 	m_texCoords += m_texCoordsStep;
+	m_oneOverZ += m_oneOverZStep;
+	m_depth += m_depthStep;
 }
 
 int Edge::getYStart() {
@@ -31,4 +39,12 @@ float Edge::getXPos() {
 
 const Vec2& Edge::getTexCoords() {
 	return m_texCoords;
+}
+
+float Edge::getOneOverZ() {
+	return m_oneOverZ;
+}
+
+float Edge::getDepth() {
+	return m_depth;
 }

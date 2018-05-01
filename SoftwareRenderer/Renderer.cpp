@@ -80,13 +80,24 @@ void Renderer::scanTriangleHalf(Framebuffer& target, const Texture& texture,  Ed
 		int xEnd = (int)ceil(right->getXPos());
 		float xPre = (float)xStart - left->getXPos();
 		
-		Vec2 texCoordsXStep = (right->getTexCoords() - left->getTexCoords()) * (1.0f / (right->getXPos() - left->getXPos()));
+		float oneOverXDist = 1.0f / (right->getXPos() - left->getXPos());
+		Vec2 texCoordsXStep = (right->getTexCoords() - left->getTexCoords()) * oneOverXDist;
+		float oneOverZXStep = (right->getOneOverZ() - left->getOneOverZ()) * oneOverXDist;
+		float depthXStep = (right->getDepth() - left->getDepth()) * oneOverXDist;
+
 		Vec2 texCoords = left->getTexCoords() + texCoordsXStep * xPre;
+		float oneOverZ = left->getOneOverZ() + oneOverZXStep * xPre;
+		float depth = left->getDepth() + depthXStep * xPre;
 
 		for (int x = xStart; x < xEnd; x++) {
-			Vec3 color = texture.sample(texCoords);
-			target.setRGB(x, y, (int)(color.x * 255.0f + 0.5f), (int)(color.y * 255.0f + 0.5f), (int)(color.z * 255.0f + 0.5f));
+			float z = 1.0f / oneOverZ;
+			Vec3 color = texture.sample(texCoords * z);
+			if (depth < target.getDepth(x, y)) {
+				target.setPixel(x, y, (int)(color.x * 255.0f), (int)(color.y * 255.0f), (int)(color.z * 255.0f), depth);
+			}
 			texCoords += texCoordsXStep;
+			oneOverZ += oneOverZXStep;
+			depth += depthXStep;
 		}
 		left->step();
 		right->step();
