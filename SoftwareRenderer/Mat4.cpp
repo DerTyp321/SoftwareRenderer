@@ -1,5 +1,4 @@
 #include "Mat4.h"
-#include <cmath>
 
 Mat4 Mat4::createIdentity() {
 	return Mat4{ {

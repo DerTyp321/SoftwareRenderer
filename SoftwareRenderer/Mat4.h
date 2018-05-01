@@ -1,6 +1,5 @@
 #pragma once
-#include "Vec3.h"
-#include "Vec4.h"
+#include "MathUtil.h"
 
 struct Mat4 {
 	float m[4][4];

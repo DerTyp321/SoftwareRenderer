@@ -7,8 +7,7 @@
 
 #include "Window.h"
 #include "Renderer.h"
-#include "Vec3.h"
-#include "Mat4.h"
+#include "MathUtil.h"
 
 int main() {
 	ioInit();

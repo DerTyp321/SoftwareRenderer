@@ -1,9 +1,6 @@
 #pragma once
 #include "Framebuffer.h"
-#include "Mat4.h"
-#include "Vec4.h"
-#include "Vec3.h"
-#include "Vec2.h"
+#include "MathUtil.h"
 #include "Mesh.h"
 #include "Edge.h"
 
