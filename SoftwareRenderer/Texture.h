@@ -1,9 +1,11 @@
 #pragma once
 #include "MathUtil.h"
+#include <iostream>
 
 class Texture {
 public:
 	Texture(int width, int height);
+	Texture(std::string path);
 	~Texture();
 	void setPixel(int x, int y, int abgr);
 	Vec3 sample(Vec2 coords) const;

@@ -1,9 +1,33 @@
 #include "Texture.h"
+#include <SDL.h>
 
 Texture::Texture(int width, int height) {
 	m_width = width;
 	m_height = height;
 	m_colorBuffer = new int[m_width * m_height];
+}
+
+Texture::Texture(std::string path) {
+	SDL_Surface* orig = SDL_LoadBMP(path.c_str());
+	if (orig == nullptr) {
+		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+		SDL_Quit();
+		getchar();
+		exit(1);
+	}
+	SDL_Surface* converted = SDL_ConvertSurfaceFormat(orig, SDL_PIXELFORMAT_ABGR8888, 0);
+	if (converted == nullptr) {
+		std::cout << "SDL_ConvertSurfaceFormat Error: " << SDL_GetError() << std::endl;
+		SDL_Quit();
+		getchar();
+		exit(1);
+	}
+	m_width = converted->w;
+	m_height = converted->h;
+	m_colorBuffer = new int[m_width * m_height];
+	memcpy(m_colorBuffer, converted->pixels, m_width * m_height * sizeof(int));
+	SDL_FreeSurface(orig);
+	SDL_FreeSurface(converted);
 }
 
 Texture::~Texture() {
