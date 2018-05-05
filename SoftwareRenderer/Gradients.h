@@ -19,10 +19,10 @@ public:
 	float getDepthXStep();
 	float getDepthYStep();
 private:
-	Vec2 m_texCoords[3]{};
+	Vec2 m_texCoords[3];
 	Vec2 m_texCoordsXStep;
 	Vec2 m_texCoordsYStep;
-	Vec3 m_normal[3]{};
+	Vec3 m_normal[3];
 	Vec3 m_normalXStep;
 	Vec3 m_normalYStep;
 	float m_oneOverZ[3];

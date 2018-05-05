@@ -2,6 +2,8 @@
 #include "Vec3.h"
 
 struct Vec4 {
+	Vec4();
+	Vec4(float x, float y, float z, float w);
 	float x, y, z, w;
 	Vec4& add(const Vec4& o);
 	Vec4& sub(const Vec4& o);

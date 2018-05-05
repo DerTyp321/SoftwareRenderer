@@ -1,6 +1,8 @@
 #pragma once
 
 struct Vec2 {
+	Vec2();
+	Vec2(float x, float y);
 	float x, y;
 	Vec2& add(const Vec2& o);
 	Vec2& sub(const Vec2& o);

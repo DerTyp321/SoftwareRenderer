@@ -99,7 +99,7 @@ void Renderer::scanTriangleHalf(Framebuffer& target, const Texture& texture,  Ed
 			Vec2 texCoord = texCoordsDivZ * z;
 			Vec3 normal = normalDivZ * z;
 			normal.normalize();
-			float lightFactor = dot(normalize(Vec3{ 0.2f, -0.5f, -1.0f }), normal);
+			float lightFactor = dot(normalize(Vec3( 0.2f, -0.5f, -1.0f )), normal);
 			if (lightFactor < 0)lightFactor = 0;
 			Vec3 color = texture.sample(texCoord) * lightFactor;
 			if (depth < target.getDepth(x, y)) {

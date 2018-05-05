@@ -26,9 +26,9 @@ int main(int argc, char* argv[]) {
 
 	Mesh monkey = OBJMesh("res/monkey_smooth.mesh").toIndexedMesh();
 	Mesh triangle;
-	triangle.addVertex(Vertex(Vec3{+0.0f, +1.0f, +0.0f}, Vec2{0.5f, 0.0f}, Vec3{0.0f, 0.0f, 0.0f}));
-	triangle.addVertex(Vertex(Vec3{-1.0f, -1.0f, +0.0f}, Vec2{0.0f, 1.0f}, Vec3{0.0f, 0.0f, 0.0f}));
-	triangle.addVertex(Vertex(Vec3{+1.0f, -1.0f, +0.0f}, Vec2{1.0f, 1.0f}, Vec3{0.0f, 0.0f, 0.0f}));
+	triangle.addVertex(Vertex(Vec3(+0.0f, +1.0f, +0.0f), Vec2(0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f)));
+	triangle.addVertex(Vertex(Vec3(-1.0f, -1.0f, +0.0f), Vec2(0.0f, 1.0f), Vec3(0.0f, 0.0f, 0.0f)));
+	triangle.addVertex(Vertex(Vec3(+1.0f, -1.0f, +0.0f), Vec2(1.0f, 1.0f), Vec3(0.0f, 0.0f, 0.0f)));
 	triangle.addIndex(0);
 	triangle.addIndex(1);
 	triangle.addIndex(2);
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 	triangle.addIndex(1);
 	triangle.addIndex(0);
 
-	Texture tex("res/uv_test.bmp");
+	Texture tex("res/monkey.bmp");
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e), e.type != SDL_QUIT) {
