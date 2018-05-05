@@ -1,10 +1,13 @@
 #include "OBJLoader.h"
-#include <fstream>
 #include <iostream>
+#include <fstream>
+
 
 OBJMesh::OBJMesh(std::string path) {
-	std::cout << "loading OBJ Model " << path << std::endl;
+	//std::cout << "loading OBJ Model " << path << std::endl;
+
 	std::ifstream in(path);
+
 	if (in.is_open()) {
 		std::cerr << "Error loading OBJ: cant open file";
 	}

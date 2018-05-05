@@ -22,4 +22,4 @@ private:
 	std::vector<Vec2> m_texCoords;
 	std::vector<Vec3> m_normals;
 	std::vector<OBJIndex> m_indices;
-}
+};
