@@ -26,6 +26,7 @@ Vec3 mul(const Vec3& a, float f);
 
 Vec3 normalize(const Vec3& a);
 Vec3 cross(const Vec3& a, const Vec3& b);
+float dot(const Vec3& a, const Vec3& b);
 
 Vec3 operator+(const Vec3& a, const Vec3& b);
 Vec3 operator-(const Vec3& a, const Vec3& b);

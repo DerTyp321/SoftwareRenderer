@@ -98,11 +98,12 @@ void Renderer::scanTriangleHalf(Framebuffer& target, const Texture& texture,  Ed
 			float z = 1.0f / oneOverZ;
 			Vec2 texCoord = texCoordsDivZ * z;
 			Vec3 normal = normalDivZ * z;
-			Vec3 normalPos = (normal + Vec3{ 1.0f, 1.0f, 1.0f }) * 0.5f;
-			Vec3 color = texture.sample(texCoord);
+			normal.normalize();
+			float lightFactor = dot(normalize(Vec3{ 0.2f, -0.5f, -1.0f }), normal);
+			if (lightFactor < 0)lightFactor = 0;
+			Vec3 color = texture.sample(texCoord) * lightFactor;
 			if (depth < target.getDepth(x, y)) {
-				//target.setPixel(x, y, ((int)(color.x * 255.0f)) | ((int)(color.y * 255.0f) << 8) | ((int)(color.z * 255.0f) << 16), depth);
-				target.setPixel(x, y, ((int)(normalPos.x * 255.0f)) | ((int)(normalPos.y * 255.0f) << 8) | ((int)(normalPos.z * 255.0f) << 16), depth);
+				target.setPixel(x, y, ((int)(color.x * 255.0f)) | ((int)(color.y * 255.0f) << 8) | ((int)(color.z * 255.0f) << 16), depth);
 			}
 			texCoordsDivZ += texCoordsXStep;
 			normalDivZ += normalXStep;
