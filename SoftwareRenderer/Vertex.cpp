@@ -2,8 +2,8 @@
 
 Vertex::Vertex(const Vec3& pos, const Vec2& texCoords, const Vec3& normal) {
 	m_pos = Vec4{ pos.x, pos.y, pos.z, 1.0f };
-	m_texCoords = Vec2{ pos.x, pos.y};
-	m_normal = Vec4{ pos.x, pos.y, pos.z, 0.0f};
+	m_texCoords = Vec2{ texCoords.x, texCoords.y};
+	m_normal = Vec4{ normal.x, normal.y, normal.z, 0.0f};
 }
 
 void Vertex::transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight) {

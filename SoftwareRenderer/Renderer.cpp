@@ -23,6 +23,8 @@ void Renderer::renderTriangle(Framebuffer& target, const Texture& texture, Verte
 	v2.transformToScreen(mvp, target.getWidth(), target.getHeight());
 	v3.transformToScreen(mvp, target.getWidth(), target.getHeight());
 
+	if(v1.handedness(v2, v3))return;
+
 	Vertex* top = &v1;
 	Vertex* mid = &v2;
 	Vertex* bot = &v3;

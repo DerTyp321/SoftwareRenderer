@@ -28,6 +28,7 @@ Texture::Texture(std::string path) {
 	memcpy(m_colorBuffer, converted->pixels, m_width * m_height * sizeof(int));
 	SDL_FreeSurface(orig);
 	SDL_FreeSurface(converted);
+	flipY();
 }
 
 Texture::~Texture() {
@@ -37,6 +38,17 @@ Texture::~Texture() {
 void Texture::setPixel(int x, int y, int abgr) {
 	if (x < 0 || y < 0 || x >= m_width || y >= m_height)return;
 	m_colorBuffer[x + y * m_width] = abgr;
+}
+
+void Texture::flipY() {
+	int* newColorBuffer = new int[m_width * m_height];
+	for (int y = 0; y < m_height; y++) {
+		for (int x = 0; x < m_width; x++) {
+			newColorBuffer[x + y * m_width] = m_colorBuffer[x + (m_height - y - 1) * m_width];
+		}
+	}
+	delete[] m_colorBuffer;
+	m_colorBuffer = newColorBuffer;
 }
 
 Vec3 Texture::sample(Vec2 coords) const {

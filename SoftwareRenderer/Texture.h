@@ -8,6 +8,7 @@ public:
 	Texture(std::string path);
 	~Texture();
 	void setPixel(int x, int y, int abgr);
+	void flipY();
 	Vec3 sample(Vec2 coords) const;
 private:
 	int m_width;

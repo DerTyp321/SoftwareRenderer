@@ -4,12 +4,12 @@
 
 
 OBJMesh::OBJMesh(std::string path) {
-	//std::cout << "loading OBJ Model " << path << std::endl;
+	std::cout << "Loading OBJ Model " << path << std::endl;
 
 	std::ifstream in(path);
 
-	if (in.is_open()) {
-		std::cerr << "Error loading OBJ: cant open file";
+	if (!in) {
+		std::cerr << "Error loading OBJ: can't open file";
 	}
 	std::string line;
 	int lineNr = 0;
@@ -29,6 +29,7 @@ OBJMesh::OBJMesh(std::string path) {
 			parseFace(tokens, lineNr);
 		}
 	}
+	std::cout << "Finished loading OBJ Model: " << m_vertices.size() << " vertices, " << m_texCoords.size() << " textureCoordinates, " << m_normals.size() << " normals, " << m_indices.size() << " indices" << std::endl;
 	in.close();
 }
 

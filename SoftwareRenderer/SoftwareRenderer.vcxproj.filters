@@ -108,4 +108,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="logoQuadrat.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
