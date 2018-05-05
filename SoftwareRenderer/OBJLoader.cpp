@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+#define NO_OBJ_OPTIMIZE
+
 
 OBJMesh::OBJMesh(std::string path) {
 	std::cout << "Loading OBJ Model " << path << std::endl;
@@ -38,6 +40,11 @@ Mesh OBJMesh::toIndexedMesh() {
 	int currentVertexIndex = 0;
 	for (OBJIndex current : m_indices) {
 		Vertex vert(m_vertices[current.vertIndex], m_texCoords[current.texIndex], m_normals[current.normIndex]);
+#ifdef NO_OBJ_OPTIMIZE
+		result.addVertex(vert);
+		result.addIndex(currentVertexIndex);
+		currentVertexIndex++;
+#else
 		int existingIndex = result.hasVertex(vert);
 		if (existingIndex == -1) {
 			result.addVertex(vert);
@@ -47,6 +54,7 @@ Mesh OBJMesh::toIndexedMesh() {
 		else {
 			result.addIndex(existingIndex);
 		}
+#endif
 	}
 	return result;
 }

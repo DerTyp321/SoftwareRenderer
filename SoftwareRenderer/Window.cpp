@@ -38,7 +38,7 @@ void Window::draw() {
 	SDL_UpdateTexture(m_texture, NULL, m_framebuffer->getColorBuffer(), m_width * sizeof(int));
 	SDL_RenderClear(m_renderer);
 
-	SDL_RenderCopyEx(m_renderer, m_texture, NULL, NULL, 0, 0, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_renderer, m_texture, NULL, NULL, 0, 0, SDL_FLIP_VERTICAL);
 	SDL_RenderPresent(m_renderer);
 }
 
