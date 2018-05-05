@@ -1,8 +1,9 @@
 #include "Vertex.h"
 
-Vertex::Vertex(float x, float y, float z, float texX, float texY) {
-	m_pos = Vec4{ x, y, z, 1.0f };
-	m_texCoords = Vec2{ texX, texY};
+Vertex::Vertex(const Vec3& pos, const Vec2& texCoords, const Vec3& normal) {
+	m_pos = Vec4{ pos.x, pos.y, pos.z, 1.0f };
+	m_texCoords = Vec2{ pos.x, pos.y};
+	m_normal = Vec4{ pos.x, pos.y, pos.z, 0.0f};
 }
 
 void Vertex::transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight) {
@@ -19,6 +20,17 @@ bool Vertex::compareY(const Vertex & o) const {
 	return m_pos.y > o.m_pos.y;
 }
 
+bool Vertex::isEqual(const Vertex& other) const {
+	return m_pos.x == other.m_pos.x 
+		&& m_pos.y == other.m_pos.y 
+		&& m_pos.z == other.m_pos.z 
+		&& m_texCoords.x == other.m_texCoords.x 
+		&& m_texCoords.y == other.m_texCoords.y
+		&& m_normal.x == other.m_normal.x
+		&& m_normal.y == other.m_normal.y
+		&& m_normal.z == other.m_normal.z;
+}
+
 bool Vertex::handedness(const Vertex & a, const Vertex & b) const {
 	Vec2 toA{ a.getPos().x - m_pos.x, a.getPos().y - m_pos.y };
 	Vec2 toB{ b.getPos().x - m_pos.x, b.getPos().y - m_pos.y };
@@ -31,4 +43,8 @@ const Vec4& Vertex::getPos() const {
 
 const Vec2& Vertex::getTexCoords() const {
 	return m_texCoords;
+}
+
+const Vec4& Vertex::getNormal() const {
+	return m_normal;
 }

@@ -15,3 +15,10 @@ std::vector<Vertex>& Mesh::getVertices() {
 std::vector<int>& Mesh::getIndices() {
 	return m_indices;
 }
+
+int Mesh::hasVertex(const Vertex& vert) {
+	for (int i = 0; i < (int)m_vertices.size(); i++) {
+		if (vert.isEqual(m_vertices[i]))return i;
+	}
+	return -1;
+}
