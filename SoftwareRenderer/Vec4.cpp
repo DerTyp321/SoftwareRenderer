@@ -39,6 +39,10 @@ Vec4& Vec4::zDiv() {
 	return *this;
 }
 
+Vec3 Vec4::toVec3() const {
+	return Vec3{x, y, z};
+}
+
 Vec4 Vec4::lerp(const Vec4 & o, float amt) {
 	return *this + ((o - *this) * amt);
 }

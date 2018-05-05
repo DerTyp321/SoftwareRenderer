@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 	float delta = 0;
 	float total = 0;
 
-	Mesh monkey = OBJMesh("res/monkey.obj").toIndexedMesh();
+	Mesh monkey = OBJMesh("res/monkey_smooth.mesh").toIndexedMesh();
 	Mesh triangle;
 	triangle.addVertex(Vertex(Vec3{+0.0f, +1.0f, +0.0f}, Vec2{0.5f, 0.0f}, Vec3{0.0f, 0.0f, 0.0f}));
 	triangle.addVertex(Vertex(Vec3{-1.0f, -1.0f, +0.0f}, Vec2{0.0f, 1.0f}, Vec3{0.0f, 0.0f, 0.0f}));
@@ -32,8 +32,11 @@ int main(int argc, char* argv[]) {
 	triangle.addIndex(0);
 	triangle.addIndex(1);
 	triangle.addIndex(2);
+	triangle.addIndex(2);
+	triangle.addIndex(1);
+	triangle.addIndex(0);
 
-	Texture tex("res/monkey.bmp");
+	Texture tex("res/uv_test.bmp");
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e), e.type != SDL_QUIT) {
@@ -49,7 +52,8 @@ int main(int argc, char* argv[]) {
 		projection = Mat4::createProjection(1.0f, (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
 		window.getFramebuffer().clear(0x333333);
 
-		renderer.renderMesh(window.getFramebuffer(), tex, monkey, projection * view * model, Vec3{ 1.0f, 0.0f, 0.0f });
+		Mat4 modelview = view * model;
+		renderer.renderMesh(window.getFramebuffer(), tex, monkey, projection * modelview, modelview, Vec3{ 1.0f, 0.0f, 0.0f });
 
 		window.draw();
 

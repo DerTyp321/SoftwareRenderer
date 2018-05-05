@@ -1,10 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
-#include "Vec2.h"
-#include "Vec3.h"
-#include "Vec4.h"
-#include "Mat4.h"
+#include "MathUtil.h"
 
 #include <SDL.h>
 #undef main

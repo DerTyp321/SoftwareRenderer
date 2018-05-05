@@ -4,7 +4,7 @@
 class Vertex {
 public:
 	Vertex(const Vec3& pos, const Vec2& texCoords, const Vec3& normal);
-	void transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight);
+	void transformToScreen(const Mat4& mvp, const Mat4& mv, int screenWidth, int screenHeight);
 	bool compareY(const Vertex& o) const;
 	bool handedness(const Vertex& a, const Vertex& b) const;
 	bool isEqual(const Vertex& other) const;

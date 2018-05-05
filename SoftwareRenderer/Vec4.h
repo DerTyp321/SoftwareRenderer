@@ -1,4 +1,5 @@
 #pragma once
+#include "Vec3.h"
 
 struct Vec4 {
 	float x, y, z, w;
@@ -8,6 +9,8 @@ struct Vec4 {
 	Vec4& mul(float f);
 	
 	Vec4& zDiv();
+
+	Vec3 toVec3() const;
 
 	Vec4 lerp(const Vec4& o, float amt);
 

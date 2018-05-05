@@ -17,6 +17,10 @@ Gradients::Gradients(Vertex top, Vertex mid, Vertex bot) {
 	m_texCoords[1] = mid.getTexCoords() * m_oneOverZ[1];
 	m_texCoords[2] = bot.getTexCoords() * m_oneOverZ[2];
 
+	m_normal[0] = top.getNormal().toVec3() * m_oneOverZ[0];
+	m_normal[1] = mid.getNormal().toVec3() * m_oneOverZ[1];
+	m_normal[2] = bot.getNormal().toVec3() * m_oneOverZ[2];
+
 	m_depth[0] = top.getPos().z;
 	m_depth[1] = mid.getPos().z;
 	m_depth[2] = bot.getPos().z;
@@ -49,6 +53,20 @@ Gradients::Gradients(Vertex top, Vertex mid, Vertex bot) {
 		(mid.getPos().x - bot.getPos().x)
 	) * oneOverdY;
 
+	m_normalXStep = (
+		(m_normal[1] - m_normal[2]) *
+		(top.getPos().y - bot.getPos().y) -
+		(m_normal[0] - m_normal[2]) *
+		(mid.getPos().y - bot.getPos().y)
+		) * oneOverdX;
+
+	m_normalYStep = (
+		(m_normal[1] - m_normal[2]) *
+		(top.getPos().x - bot.getPos().x) -
+		(m_normal[0] - m_normal[2]) *
+		(mid.getPos().x - bot.getPos().x)
+		) * oneOverdY;
+
 	m_depthXStep = (
 		(m_depth[1] - m_depth[2]) *
 		(top.getPos().y - bot.getPos().y) -
@@ -74,6 +92,18 @@ const Vec2& Gradients::getTexCoordsXStep() {
 
 const Vec2& Gradients::getTexCoordsYStep() {
 	return m_texCoordsYStep;
+}
+
+const Vec3& Gradients::getNormal(int index) {
+	return m_normal[index];
+}
+
+const Vec3& Gradients::getNormalXStep() {
+	return m_normalXStep;
+}
+
+const Vec3& Gradients::getNormalYStep() {
+	return m_normalYStep;
 }
 
 float Gradients::getOneOverZ(int index) {

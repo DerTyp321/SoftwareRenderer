@@ -6,8 +6,9 @@ Vertex::Vertex(const Vec3& pos, const Vec2& texCoords, const Vec3& normal) {
 	m_normal = Vec4{ normal.x, normal.y, normal.z, 0.0f};
 }
 
-void Vertex::transformToScreen(const Mat4& mvp, int screenWidth, int screenHeight) {
+void Vertex::transformToScreen(const Mat4& mvp, const Mat4& mv, int screenWidth, int screenHeight) {
 	m_pos = m_pos * mvp;
+	m_normal = m_normal * mv;
 	m_pos.zDiv();
 	m_pos = Vec4{
 		(m_pos.x + 1.0f) * 0.5f * (float)screenWidth,

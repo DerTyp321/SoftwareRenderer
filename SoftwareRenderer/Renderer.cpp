@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "DebugUtil.h"
 
-void Renderer::renderMesh(Framebuffer & target, const Texture& texture, Mesh mesh, Mat4 mvp, const Vec3 & color) {
+void Renderer::renderMesh(Framebuffer & target, const Texture& texture, Mesh mesh, const Mat4& mvp, const Mat4& mv, const Vec3 & color) {
 	std::vector<Vertex>& vertices = mesh.getVertices();
 	std::vector<int> indices = mesh.getIndices();
 	int faces = indices.size() / 3;
@@ -12,16 +12,17 @@ void Renderer::renderMesh(Framebuffer & target, const Texture& texture, Mesh mes
 			vertices[indices[i * 3 + 0]],
 			vertices[indices[i * 3 + 1]],
 			vertices[indices[i * 3 + 2]],
-			mvp
+			mvp,
+			mv
 		);
 	}
 }
 
-void Renderer::renderTriangle(Framebuffer& target, const Texture& texture, Vertex v1, Vertex v2, Vertex v3, const Mat4& mvp) {
+void Renderer::renderTriangle(Framebuffer& target, const Texture& texture, Vertex v1, Vertex v2, Vertex v3, const Mat4& mvp, const Mat4& mv) {
 
-	v1.transformToScreen(mvp, target.getWidth(), target.getHeight());
-	v2.transformToScreen(mvp, target.getWidth(), target.getHeight());
-	v3.transformToScreen(mvp, target.getWidth(), target.getHeight());
+	v1.transformToScreen(mvp, mv, target.getWidth(), target.getHeight());
+	v2.transformToScreen(mvp, mv, target.getWidth(), target.getHeight());
+	v3.transformToScreen(mvp, mv, target.getWidth(), target.getHeight());
 
 	if(v1.handedness(v2, v3))return;
 
@@ -84,20 +85,27 @@ void Renderer::scanTriangleHalf(Framebuffer& target, const Texture& texture,  Ed
 		
 		float oneOverXDist = 1.0f / (right->getXPos() - left->getXPos());
 		Vec2 texCoordsXStep = (right->getTexCoords() - left->getTexCoords()) * oneOverXDist;
+		Vec3 normalXStep = (right->getNormal() - left->getNormal()) * oneOverXDist;
 		float oneOverZXStep = (right->getOneOverZ() - left->getOneOverZ()) * oneOverXDist;
 		float depthXStep = (right->getDepth() - left->getDepth()) * oneOverXDist;
 
-		Vec2 texCoords = left->getTexCoords() + texCoordsXStep * xPre;
+		Vec2 texCoordsDivZ = left->getTexCoords() + texCoordsXStep * xPre;
+		Vec3 normalDivZ = left->getNormal() + normalXStep * xPre;
 		float oneOverZ = left->getOneOverZ() + oneOverZXStep * xPre;
 		float depth = left->getDepth() + depthXStep * xPre;
 
 		for (int x = xStart; x < xEnd; x++) {
 			float z = 1.0f / oneOverZ;
-			Vec3 color = texture.sample(texCoords * z);
+			Vec2 texCoord = texCoordsDivZ * z;
+			Vec3 normal = normalDivZ * z;
+			Vec3 normalPos = (normal + Vec3{ 1.0f, 1.0f, 1.0f }) * 0.5f;
+			Vec3 color = texture.sample(texCoord);
 			if (depth < target.getDepth(x, y)) {
-				target.setPixel(x, y, ((int)(color.x * 255.0f)) | ((int)(color.y * 255.0f) << 8) | ((int)(color.z * 255.0f) << 16), depth);
+				//target.setPixel(x, y, ((int)(color.x * 255.0f)) | ((int)(color.y * 255.0f) << 8) | ((int)(color.z * 255.0f) << 16), depth);
+				target.setPixel(x, y, ((int)(normalPos.x * 255.0f)) | ((int)(normalPos.y * 255.0f) << 8) | ((int)(normalPos.z * 255.0f) << 16), depth);
 			}
-			texCoords += texCoordsXStep;
+			texCoordsDivZ += texCoordsXStep;
+			normalDivZ += normalXStep;
 			oneOverZ += oneOverZXStep;
 			depth += depthXStep;
 		}
